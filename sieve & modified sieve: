@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+#define ll long long 
+const int N = 1e6 + 5;
+
+
+// seive to get the primes from 1 : N in O(NloglogN)
+int vst[N], cnt[N];
+vector<int> primes;
+void seive(){
+     for(int i = 2; i < N; ++i){
+          if(vst[i])
+               continue;
+          primes.push_back(i);
+          for(ll j = 1LL * i * i; j < N; j +=i)
+               vst[j] = 1;
+     }
+}
+
+// Modified sieve for number of divisors
+int cnt1[N];
+void modSeive(){
+     for(int i = 1; i < N; ++i){
+          for(int j = i; j < N; j += i)
+               ++cnt1[j];
+     }
+}
+
+// Modified sieve for number of prime factors
+int cnt2[N];
+void mod2Sieve(){
+     for(int i = 2; i < N; ++i){
+          if(vst[i])
+               continue;
+          for(ll j = i; j < N; j +=i){
+               vst[j] = 1;
+               int cntP = 0;// calculate the power of i exists in j
+               int curr = j;
+               while (curr % i == 0) {
+                    ++cntP;
+                    curr /= i;
+               }
+               cnt2[j] += cntP;
+          }
+     }
+}
+int main(){
+     
+     return 0;
+}
