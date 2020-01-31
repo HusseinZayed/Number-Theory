@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+#define ll long long
+
+using namespace std;
+
+
+bool isPrime(ll n){
+  for(ll i = 2; i <= n / i; ++i)
+    if(n % i == 0)
+      return 0;
+  return n > 1;
+}
+
+
+vector<ll> getDivisors(ll n){
+  vector<ll> ret;
+  for(int i = 1; i <= n / i; ++i){
+    if(n % i == 0){
+      ret.push_back(i);
+      if(n / i != i)
+        ret.push_back(n / i);
+    }
+  }
+  return ret;
+}
+
+
+
+ll GCD(ll a, ll b){
+    return b ? GCD(b, a % b) : a;
+}
+
+ll LCM(ll a, ll b){
+    return a / GCD(a, b) * b;
+}
+
+
+vector<ll> getFactors(ll n){
+  vector<ll> ret;
+  for(ll i = 2; i <= n / i; ++i)
+    while(n % i == 0){
+      ret.push_back(i);
+      n /= i;
+    }
+  
+  if(n != 1){
+    ret.push_back(n);
+  }
+  return ret;
+}
+
+
+
+int main()
+{
+  return 0;
+}
