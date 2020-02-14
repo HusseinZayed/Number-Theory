@@ -1,0 +1,115 @@
+
+//-----------------------------------------------------------------------------------------
+
+Basic method
+
+While calculating , the most basic solution is broken down into . The new problem is , which is similar to the original problem. Therefore, like in original problem, it is further broken down to .
+
+This is a recursive way of determining the answer to . However, sometimes an equation cannot be broken down any further as in the case of . A C++ code for this solution, considering  is as follows:
+
+int recursivePower(int x,int n)
+{
+    if(n==0)
+        return 1;
+    return x*recursivePower(x,n-1);
+}
+The recursive method aligns with the explanation, however, the solution can also be written in an iterative format, which is quite ad hoc. A variable 'result', to which  is multiplied for  number of times, is maintained.
+The iterative code is as follows:
+
+int iterativePower(int x,int n)
+{
+    int result=1;
+    while(n>0)
+    {
+        result=result*x;
+        n--;
+    }
+    return result;
+}
+Time complexity
+With respect to time complexity, it is a fairly efficient O(n) solution. However, when it comes to finding , where  can be as large as , this solution will not be suitable.
+
+Optimized method
+
+While calculating , the basis of Binary Exponentiation relies on whether  is odd or even.
+
+If  is even, then  can be broken down to . Programmatically, finding  is a one-step process. However, the problem is to find .
+
+Notice how the computation steps were reduced from  to  in just one step? You can continue to divide the power by  as long as it is even.
+
+When  is odd, try and convert it into an even value.  can be written as . This ensures that  is even.
+
+If  is even, replace  by .
+If  is odd, replace  by .  becomes even and you can apply the relevant formula.
+Example
+
+You are required to compute . The steps are as follows:
+
+The power of  is , which is even. Break it down as follows:
+Find . The power of  is , which is odd. Convert it into an even power and then apply the following formula:
+ is a one-step computation process
+
+The result is .
+
+This is an efficient method and the ten-step process of determining  is reduced to a three-step process. At every step,  is divided by . Therefore, the time complexity is O(log N).
+
+The code for the process is as follows:
+
+int binaryExponentiation(int x,int n)
+{
+    if(n==0)
+        return 1;
+    else if(n%2 == 0)        //n is even
+        return binaryExponentiation(x*x,n/2);
+    else                             //n is odd
+        return x*binaryExponentiation(x*x,(n-1)/2);
+}
+An iterative version of this method is as follows:
+int binaryExponentiation(int x,int n)
+{
+    int result=1;
+    while(n>0)
+    {
+        if(n % 2 ==1)
+            result=result * x;
+        x=x*x;
+        n=n/2;
+    }
+    return result;
+}
+However, storing answers that are too large for their respective datatypes is an issue with this method. In some languages the answer will exceed the range of the datatype while in other languages it will timeout due to large number multiplications. In such instances, you must use modulus (%). Instead of finding , you must find  % .
+For example, run the implementation of the method to find . The  solution will timeout, while the  solution will run in time but it will produce garbage values.
+
+To fix this you must use the modulo operation i.e. %  in those lines where a temporary answer is computed.
+
+int modularExponentiation(int x,int n,int M)
+{
+    if(n==0)
+        return 1;
+    else if(n%2 == 0)        //n is even
+        return modularExponentiation((x*x)%M,n/2,M);
+    else                             //n is odd
+        return (x*modularExponentiation((x*x)%M,(n-1)/2,M))%M;
+
+}
+Similarly, the iterative binary exponentiation method can be modified as follows:
+int modularExponentiation(int x,int n,int M)
+{
+    int result=1;
+    while(n>0)
+    {
+        if(power % 2 ==1)
+            result=(result * x)%M;
+        x=(x*x)%M;
+        n=n/2;
+    }
+    return result;
+}
+Recursive solution analysis
+
+Time complexity: O(log N)
+Memory complexity: O(log N) because a function call consumes memory and log N recursive function calls are made
+Iterative solution analysis
+
+Time complexity: O(log N)
+Memory complexity: O(1)
